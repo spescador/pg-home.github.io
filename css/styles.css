@@ -78,7 +78,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   .bn{flex:1;border:none;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.54rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);cursor:pointer;}
   .bn.active{color:var(--teal);}
   .bni{font-size:.95rem;}
-  .view{padding-bottom:calc(100px + env(safe-area-inset-bottom));}
 }
 @media(min-width:521px){.bnav{display:none;}}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -86,6 +85,8 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 /* VIEWS */
 .view{display:none;max-width:600px;margin:0 auto;padding:16px 14px;}
 .view.active{display:block;}
+/* FIX: este media query debe ir DESPUÉS de .view{padding:16px 14px} para no ser sobreescrito */
+@media(max-width:520px){.view{padding-bottom:calc(100px + env(safe-area-inset-bottom));}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .view.active > *{animation:fadeUp .25s ease both;}
 
