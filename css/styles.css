@@ -12,7 +12,8 @@
   --sh:0 2px 12px rgba(0,0,0,0.07);--shm:0 4px 24px rgba(0,0,0,0.10);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:clip;}
+/* overflow-x:clip en lugar de hidden — evita el problema de scroll y posicionamiento sticky */
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,122,135,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,122,135,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
 
 /* SCREENS */
@@ -136,6 +137,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .tws{font-size:.63rem;font-weight:700;color:var(--violet);background:var(--violetL);border:1px solid rgba(106,63,200,.2);padding:1px 5px;border-radius:4px;}
 .twb{font-size:.63rem;font-weight:700;color:var(--amber);background:var(--amberL);border:1px solid var(--amberB);padding:1px 5px;border-radius:4px;}
 .tfreq{font-size:.62rem;color:var(--dim);font-weight:600;}
+.tdow{font-size:.62rem;color:var(--dim);font-weight:600;}  /* día de semana — mismo tamaño que .tfreq */
 .tpts{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;color:var(--teal);background:var(--tealL);border:1px solid rgba(0,122,135,.2);padding:3px 7px;border-radius:5px;flex-shrink:0;}
 .aprbtn{padding:5px 11px;background:var(--amberL);color:var(--amber);border:1px solid var(--amberB);border-radius:6px;font-size:.72rem;font-weight:700;cursor:pointer;flex-shrink:0;font-family:'Space Grotesk',sans-serif;transition:all .15s;}
 .aprbtn:hover{background:rgba(184,107,0,.18);}

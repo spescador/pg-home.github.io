@@ -399,7 +399,7 @@ function taskCard(t, mode){
   }
 
   var who2=(mode==='dash')?'<span class="'+wc+'">'+wl+'</span>':'';
-  var dow=(t.freq==='semanal')?'<span style="color:var(--dim)">'+DOW[t.wd]+'</span>':'';
+  var dow=(t.freq==='semanal')?'<span class="tdow">'+DOW[t.wd]+'</span>':'';
   var cardCls='tcard'+(ok?' done':rej?' rejected':'');
   return '<div class="'+cardCls+'">'
     +'<div class="tico">'+t.e+'</div>'
@@ -452,7 +452,7 @@ function renderAll(){
       ?ups.map(function(t){
           var uwc=t.who==='Alba'?'twa':t.who==='Sofía'?'tws':'twb';
           var uwl=t.who==='Ambas'?'Ambas':t.who;
-          var dow=t.freq==='semanal'?'<span style="color:var(--muted)">cada '+DOW[t.wd]+'</span>':'';
+          var dow=t.freq==='semanal'?'<span class="tdow">cada '+DOW[t.wd]+'</span>':'';
           return '<div class="tcard"><div class="tico">'+t.e+'</div>'
             +'<div class="tinfo"><div class="tnm">'+t.n+'</div>'
             +'<div class="tmeta"><span class="'+uwc+'">'+uwl+'</span><span class="tfreq">'+FL[t.freq]+'</span>'+dow+'</div></div>'
