@@ -42,8 +42,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .pd{width:14px;height:14px;border-radius:50%;border:2px solid var(--border2);background:var(--bg2);transition:all .15s;}
 .pd.on{background:var(--teal);border-color:var(--teal);}
 .pin-kp{display:grid;grid-template-columns:repeat(3,56px);gap:10px;}
-.pk{width:56px;height:56px;border-radius:50%;border:1px solid var(--border2);background:var(--card);font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s;box-shadow:var(--sh);}
-.pk:active{background:var(--tealL);color:var(--teal);}
+.pk{width:56px;height:56px;border-radius:50%;border:1px solid var(--border2);background:var(--card);font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;color:var(--text);cursor:pointer;transition:background .1s,color .1s,box-shadow .1s;box-shadow:var(--sh);transform-origin:center;}
+.pk:active{background:var(--tealL);color:var(--teal);transform:scale(0.88);}
+@keyframes pkTap{0%{transform:scale(1)}40%{transform:scale(0.84);background:var(--tealL);color:var(--teal)}100%{transform:scale(1)}}
+.pk-tap{animation:pkTap 0.18s ease both;}
 .pin-err{font-size:.72rem;color:var(--red);min-height:20px;text-align:center;margin-top:8px;}
 .pin-back{font-size:.72rem;color:var(--muted);cursor:pointer;margin-top:16px;letter-spacing:.06em;}
 .pin-back:hover{color:var(--teal);}

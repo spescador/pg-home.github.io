@@ -17,12 +17,12 @@ function dbReady(){
 }
 
 async function q(table, opts){
-  var ref = db.from(table);
-  if(opts && opts.select)  ref = ref.select(opts.select);
-  if(opts && opts.eq)      for(var k in opts.eq) ref = ref.eq(k, opts.eq[k]);
-  if(opts && opts.order)   ref = ref.order(opts.order, {ascending: opts.asc !== false});
+  // FIX: siempre llamar .select() — en Supabase JS v2 es necesario antes de .eq()
+  var ref = db.from(table).select((opts && opts.select) ? opts.select : '*');
+  if(opts && opts.eq)    for(var k in opts.eq) ref = ref.eq(k, opts.eq[k]);
+  if(opts && opts.order) ref = ref.order(opts.order, {ascending: opts.asc !== false});
   var {data, error} = await ref;
-  if(error){ console.error(table, error); return []; }
+  if(error){ console.error('[DB error]', table, error.message || error); return []; }
   return data || [];
 }
 
@@ -299,13 +299,22 @@ function showOnly(id){
 g('lc-admin').addEventListener('click',function(){ openPin('admin'); });
 g('lc-alba').addEventListener('click',function(){  openPin('alba');  });
 g('lc-sofia').addEventListener('click',function(){ openPin('sofia'); });
-g('pk-del').addEventListener('click',pinDel);
+g('pk-del').addEventListener('click',function(){
+  pinDel();
+  this.classList.add('pk-tap');
+  this.addEventListener('animationend', function(){ this.classList.remove('pk-tap'); }, {once:true});
+});
 g('pin-back').addEventListener('click',function(){
   showOnly('login-screen'); pinBuf=''; updateDots(); g('pin-err').textContent='';
 });
 g('logout-btn').addEventListener('click',function(){ CU=null; showOnly('login-screen'); });
 document.querySelectorAll('.pk[data-d]').forEach(function(btn){
-  btn.addEventListener('click',function(){ pinPress(btn.getAttribute('data-d')); });
+  btn.addEventListener('click',function(){
+    pinPress(btn.getAttribute('data-d'));
+    // Feedback visual táctil (funciona en todos los dispositivos)
+    btn.classList.add('pk-tap');
+    btn.addEventListener('animationend', function(){ btn.classList.remove('pk-tap'); }, {once:true});
+  });
 });
 
 function openPin(who){
@@ -317,15 +326,16 @@ function openPin(who){
 function pinPress(d){
   if(pinBuf.length>=4) return;
   pinBuf+=d; updateDots();
-  // Vibración háptica en móvil
-  if(navigator.vibrate) navigator.vibrate(10);
+  // Vibración en Android (no disponible en iOS ni escritorio — el feedback visual
+  // del botón (.pk-tap) funciona en todos los dispositivos)
+  try { if(navigator.vibrate) navigator.vibrate(10); } catch(e){}
   if(pinBuf.length===4){
     setTimeout(function(){
       if(pinBuf===pins[pinTarget]){
         CU=pinTarget; pinBuf=''; updateDots();
         showOnly('app'); enterApp();
       } else {
-        if(navigator.vibrate) navigator.vibrate([50,30,50]);
+        try { if(navigator.vibrate) navigator.vibrate([50,30,50]); } catch(e){}
         g('pin-err').textContent='PIN incorrecto';
         var dots=g('pin-dots');
         dots.classList.add('shake');
